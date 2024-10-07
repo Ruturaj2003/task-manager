@@ -1,14 +1,18 @@
 const express = require("express");
-
-const app = express();
+const tasks = require('./routes/tasks')
 
 // Server Setup
+const app = express();
 const port = 3000;
 app.listen(port, () => console.log(`Server Listening on Port ${port}`));
+app.get('/',(req,res)=>{
+    res.send("Task Manager is Active")
+})
+
+// Midlleware
+app.use(express.json())
 
 
 // Routes 
-app.get('/hello',(req,res)=>{
-    res.send("Task Manager is Active")
-})
+app.use('/api/v1/tasks',tasks)
 
