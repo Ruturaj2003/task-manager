@@ -33,9 +33,8 @@ const getTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await Task.find({})
-    res.status(200).json({ tasks:tasks });
-
+    const tasks = await Task.find({});
+    res.status(200).json({ tasks: tasks });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -43,11 +42,26 @@ const getAllTasks = async (req, res) => {
     });
   }
 };
-const updateTask = (req, res) => {
-  res.send("Update Item");
+const updateTask = async (req, res) => {
+  try {
+  } catch (error) {}
+
+  // res.send("Update Item");
 };
-const deleteTask = (req, res) => {
-  res.send("Delete Item");
+const deleteTask = async (req, res) => {
+  // res.send("Delete Item");
+  try {
+    const { id: taskID } = req.params;
+    const task = await Task.findOneAndDelete({
+      _id: taskID,
+    });
+    res.status(200).json({ task });
+    if (!task) {
+      return res.status(404).json({ msg: `No Task with id : ${taskID} ` });
+    }
+  } catch (error) {
+    res.status(501).json({ msg: error });
+  }
 };
 
 module.exports = {
