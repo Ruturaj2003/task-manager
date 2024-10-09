@@ -1,5 +1,5 @@
 const Task = require("../models/Task");
-//TODO: GET ALL TASKS
+
 const createTask = async (req, res) => {
   try {
     const task = await Task.create(req.body);
@@ -22,7 +22,7 @@ const getTask = async (req, res) => {
       return res.status(404).json({ msg: "Could not find the Task" });
     }
 
-    res.staus(200).json({ task });
+    res.status(200).json({ task });
   } catch (error) {
     res.status(500).json({
       msg: "Something went wrong in the server",
@@ -31,8 +31,17 @@ const getTask = async (req, res) => {
   }
 };
 
-const getAllTasks = (req, res) => {
-  res.send("All Items");
+const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({})
+    res.status(200).json({ tasks:tasks });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      msg: "Something went wrong in the server",
+    });
+  }
 };
 const updateTask = (req, res) => {
   res.send("Update Item");
