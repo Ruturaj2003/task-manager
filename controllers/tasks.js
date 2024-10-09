@@ -42,12 +42,6 @@ const getAllTasks = async (req, res) => {
     });
   }
 };
-const updateTask = async (req, res) => {
-  try {
-  } catch (error) {}
-
-  // res.send("Update Item");
-};
 const deleteTask = async (req, res) => {
   // res.send("Delete Item");
   try {
@@ -64,6 +58,27 @@ const deleteTask = async (req, res) => {
   }
 };
 
+const updateTask = async (req, res) => {
+  try {
+    const { id: taskId } = req.params;
+    // By defualy ull get old value back
+    const task = await Task.findOneAndUpdate({ _id: taskId }, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!task) {
+      return res.status(404).json({ msg: `No Task with id : ${taskID} ` });
+    }
+    res.status(200).json({
+      id: taskId,
+      data: req.body,
+    });
+  } catch (error) {
+    res.status(501).json({ msg: error });
+  }
+
+  // res.send("Update Item");
+};
 module.exports = {
   getAllTasks,
   getTask,
